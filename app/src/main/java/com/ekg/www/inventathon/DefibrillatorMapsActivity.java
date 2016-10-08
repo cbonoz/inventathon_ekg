@@ -11,10 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static com.google.android.gms.analytics.internal.zzy.l;
 
 public class DefibrillatorMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

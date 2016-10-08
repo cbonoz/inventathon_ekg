@@ -13,14 +13,13 @@
         android:layout_weight="3"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:background="@android:color/background_light">
+        android:background="@color/wallet_bright_foreground_holo_dark">
 
         <ImageView
-
             android:id="@+id/google_icon"
             android:contentDescription="@string/desc_pickwhere_lockup"
-            android:src="@drawable/heart_logo"
-            android:layout_marginTop="20dp"
+            android:src="@drawable/heart_logo_trans"
+            android:layout_marginTop="50dp"
             android:layout_width="149dp"
             android:layout_height="132dp" />
 

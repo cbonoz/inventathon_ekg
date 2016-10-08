@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ekg.www.inventathon.auth.AuthUser;
+import com.ekg.www.inventathon.bluetooth.BTSocket;
 import com.ekg.www.inventathon.fragments.HomeFragment;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -43,10 +44,13 @@ public class MainActivity extends FragmentActivity implements
 
     protected Bundle mSavedInstanceState;
 
+    private BTSocket btSocket;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSavedInstanceState = savedInstanceState;
+        Log.d(TAG, "mainactivity onCreate");
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -73,7 +77,7 @@ public class MainActivity extends FragmentActivity implements
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     // Launch Login Activity.
-                    startLoginActivity();
+//                    startLoginActivity();
 
                 }
 
@@ -81,16 +85,20 @@ public class MainActivity extends FragmentActivity implements
             }
         };
 
-        setContentView(R.layout.activity_main);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
             Log.d(TAG, "Starting home fragment");
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, homeFragment).commit();
         }
+
+        btSocket = new BTSocket(this);
+        if (btSocket.openConn()) {
+            btSocket.beginListen();
+        }
+
     }
 
     // [START on_start_add_listener]
@@ -110,6 +118,17 @@ public class MainActivity extends FragmentActivity implements
         }
     }
     // [END on_stop_remove_listener]
+
+    @Override
+    public void onDestroy() {
+        super.onStop();
+        try {
+            btSocket.closeConn();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "btSocket closeConn failure");
+        }
+    }
 
     // [START onactivityresult]
     @Override

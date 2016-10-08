@@ -120,14 +120,15 @@ public class LoginActivity extends AppCompatActivity implements
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
+                Log.d(TAG, "signin success");
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
             } else {
-                // Google Sign In failed, update UI appropriately
-                // [START_EXCLUDE]
+                // TODO: fix this
+                Log.d(TAG, "signin fail - continuining as guest");
+                startMainActivity();
                 updateUI(null);
-                // [END_EXCLUDE]
             }
         }
     }
@@ -195,11 +196,11 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
     private void updateUI(FirebaseUser user) {
-
         if (user != null) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            Log.d(TAG, "updateUI with " + user.toString());
+            startMainActivity();
         } else {
+            Log.d(TAG, "updateUI with null");
 
         }
     }
@@ -223,5 +224,10 @@ public class LoginActivity extends AppCompatActivity implements
 //        } else if (i == R.id.disconnect_button) {
 //            revokeAccess();
 //        }
+    }
+
+    private void startMainActivity() {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

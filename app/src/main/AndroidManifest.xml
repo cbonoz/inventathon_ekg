@@ -8,6 +8,12 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -29,14 +35,44 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".DefibrillatorMapsActivity"
-            android:label="@string/title_activity_defibrillator_maps">
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter android:label="Schedule Meeting">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://www.example.com/gizmos” -->
+                <data
+                    android:host="www.pickwhere.com"
+                    android:pathPrefix="/meeting"
+                    android:scheme="http" />
+                <!-- note that the leading "/" is required for pathPrefix -->
+                <!-- Accepts URIs that begin with "example://gizmos” -->
+                <data
+                    android:host="www.pickwhere.com"
+                    android:scheme="meeting" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".DefibrillatorMapsActivity"
+            android:label="@string/title_activity_defibrillator_maps"></activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="MainActivity"></activity>
+
+        <service
+            android:name=".services.BTService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
