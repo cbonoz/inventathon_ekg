@@ -22,7 +22,9 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
 
     private Button profileButton;
-    private Button scheduleButton;
+    private Button emtButton;
+    private Button cprButton;
+
     private Button googleSignOutButton;
 
     private WebView profileView;
@@ -40,7 +42,7 @@ public class HomeFragment extends Fragment {
         user = AuthUser.getUser();
 
         profileButton = (Button) homeView.findViewById(R.id.profile_button);
-        scheduleButton = (Button) homeView.findViewById(R.id.schedule_button);
+        emtButton = (Button) homeView.findViewById(R.id.emt_button);
         googleSignOutButton = (Button) homeView.findViewById(R.id.google_sign_out_button);
 
         // TODO(cbono): add behavior to buttons.
@@ -51,7 +53,7 @@ public class HomeFragment extends Fragment {
                 ((MainActivity) getActivity()).updateFragment(Constants.PROFILE_FRAGMENT);
             }
         });
-        scheduleButton.setOnClickListener(new View.OnClickListener() {
+        emtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "schedule button clicked");
