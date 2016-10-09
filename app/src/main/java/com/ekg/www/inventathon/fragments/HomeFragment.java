@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.ekg.www.inventathon.Constants;
 import com.ekg.www.inventathon.MainActivity;
@@ -27,6 +28,8 @@ public class HomeFragment extends Fragment {
 
     private Button googleSignOutButton;
 
+    private TextView appNameTextView;
+
     private WebView profileView;
 
     private FirebaseUser user;
@@ -44,6 +47,9 @@ public class HomeFragment extends Fragment {
         profileButton = (Button) homeView.findViewById(R.id.profile_button);
         emtButton = (Button) homeView.findViewById(R.id.emt_button);
         googleSignOutButton = (Button) homeView.findViewById(R.id.google_sign_out_button);
+
+        appNameTextView = (TextView) homeView.findViewById(R.id.app_name_text_view);
+        appNameTextView.getBackground().setAlpha(100);
 
         // TODO(cbono): add behavior to buttons.
         profileButton.setOnClickListener(new View.OnClickListener() {
