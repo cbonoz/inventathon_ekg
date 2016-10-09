@@ -6,11 +6,6 @@
     >
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Heart Rate"
-        android:textSize="36dp" />
 
     <!--<Button-->
         <!--android:id="@+id/timer_button"-->
@@ -23,27 +18,53 @@
         <!--android:layout_alignParentBottom="true"-->
         <!--android:layout_centerHorizontal="true" />-->
 
-    <Button
-        android:id="@+id/cardiac_button"
+    <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Send Alert"
-        android:theme="@style/ThemeOverlay.MyDarkButton"
-        android:layout_marginBottom="92dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:text="Your\nHeart Rate"
+        android:textSize="36dp"
+        android:gravity="center"
+        android:id="@+id/heart_rate_text"
+        android:layout_marginTop="77dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/heart_text_view"
         android:layout_width="match_parent"
-        android:layout_marginTop="100dp"
         android:gravity="center"
         android:layout_height="200dp"
         android:textColor="@android:color/black"
         android:textSize="120sp"
         android:text="XX"
-        android:layout_alignParentTop="true" />
+        android:layout_marginTop="47dp"
+        android:layout_alignTop="@+id/heart_rate_text"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/cardiac_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Send Alert"
+        android:theme="@style/ThemeOverlay.MyDarkButton"
+        android:layout_marginBottom="28dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/cpr_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="CPR Help"
+        android:textSize="20sp"
+        android:padding="20dp"
+        android:theme="@style/ThemeOverlay.MyDangerButton"
+        android:layout_below="@+id/heart_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp" />
 
 
 </RelativeLayout>

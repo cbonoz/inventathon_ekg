@@ -29,7 +29,6 @@ public class HomeFragment extends Fragment {
     private Button googleSignOutButton;
 
     private TextView appNameTextView;
-
     private WebView profileView;
 
     private FirebaseUser user;

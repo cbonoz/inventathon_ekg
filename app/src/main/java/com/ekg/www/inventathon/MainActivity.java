@@ -41,6 +41,8 @@ public class MainActivity extends FragmentActivity implements
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user = null;
 
+    private static final String userName = "John";
+
     private Fragment homeFragment = new HomeFragment();
     private Fragment mapFragment = new DefibrillatorMapsFragment();
     private Fragment cprFragment = new CPRFragment();
@@ -194,7 +196,10 @@ public class MainActivity extends FragmentActivity implements
                 // TODO: Load another fragment
                 return;
             case Constants.CPR_FRAGMENT:
+                Bundle bundle = new Bundle();
+                bundle.putString("userName", userName);
                 targetFragment = cprFragment;
+                targetFragment.setArguments(bundle);
                 break;
             case Constants.MAP_FRAGMENT:
                 targetFragment = mapFragment;

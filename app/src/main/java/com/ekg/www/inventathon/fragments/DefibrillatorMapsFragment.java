@@ -18,7 +18,6 @@ public class DefibrillatorMapsFragment extends Fragment {
 
     private GoogleMap mMap;
 
-
     private List<LatLng> getLocations() {
         List<LatLng> locations = new ArrayList<>();
         locations.add(new LatLng(-34, 151));
