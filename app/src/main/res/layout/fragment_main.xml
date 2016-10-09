@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/google_icon"
         android:contentDescription="@string/desc_pickwhere_lockup"
-        android:src="@drawable/heart_logo_trans"
+        android:src="@drawable/heart_logo_full"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="43dp"
@@ -45,16 +45,6 @@
         android:layout_alignStart="@+id/cpr_help_button" />
 
     <Button
-        android:id="@+id/profile_button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Profile / History"
-        android:theme="@style/ThemeOverlay.MyDarkButton"
-        android:layout_below="@+id/app_name_text_view"
-        android:layout_centerHorizontal="true" />
-
-    <Button
         android:id="@+id/cpr_help_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -74,6 +64,17 @@
         android:layout_marginBottom="13dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/map_button" />
+
+    <Button
+        android:id="@+id/profile_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Profile / History"
+        android:theme="@style/ThemeOverlay.MyDarkButton"
+        android:layout_above="@+id/cpr_help_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
 
     <!--<Button-->
         <!--android:id="@+id/button6"-->
