@@ -6,14 +6,14 @@
     tools:context="com.ekg.www.inventathon.fragments.CPRFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="36sp"
-        android:textColor="@android:color/black"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:textStyle="italic"
-        android:text="Defibrillator Map" />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:textSize="30sp"-->
+        <!--android:textColor="@android:color/black"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:text="Defibrillator Map"-->
+        <!--/>-->
 
 </FrameLayout>

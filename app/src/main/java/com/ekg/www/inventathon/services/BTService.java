@@ -18,12 +18,10 @@ public class BTService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-
         btSocket = new BTSocket(this);
         if (btSocket.openConn()) {
             btSocket.beginListen();
         }
-
         return null;
     }
 

@@ -13,7 +13,6 @@ import com.ekg.www.inventathon.auth.AuthUser;
 import com.ekg.www.inventathon.fragments.CPRFragment;
 import com.ekg.www.inventathon.fragments.DefibrillatorMapsFragment;
 import com.ekg.www.inventathon.fragments.HomeFragment;
-import com.ekg.www.inventathon.services.BTService;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -56,6 +55,10 @@ public class MainActivity extends FragmentActivity implements
         mSavedInstanceState = savedInstanceState;
         Log.d(TAG, "mainactivity onCreate");
 
+
+        // TODO: Ensure user is logged in before accessing this activity.
+        setContentView(R.layout.activity_main);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -85,22 +88,19 @@ public class MainActivity extends FragmentActivity implements
 
                 }
 
-                // [END_EXCLUDE]
             }
         };
-
-
-
-
-        setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
             Log.d(TAG, "Starting home fragment");
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, homeFragment).commit();
         }
-        heartIntent = new Intent(this, BTService.class);
-        startService(heartIntent);
+
+//        heartIntent = new Intent(this, BTService.class);
+//        startService(heartIntent);
+
+
     }
 
     // [START on_start_add_listener]
@@ -125,7 +125,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stopService(heartIntent);
+//        stopService(heartIntent);
     }
 
     // [START onactivityresult]
@@ -180,6 +180,7 @@ public class MainActivity extends FragmentActivity implements
                 });
     }
     // [END auth_with_google]
+
 
     public void updateFragment(int fragmentNumber) {
         Log.d(TAG, "updateFragment");

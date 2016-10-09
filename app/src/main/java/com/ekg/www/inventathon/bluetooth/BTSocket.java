@@ -51,7 +51,6 @@ public class BTSocket {
         setDevice(device);
     }
 
-
     public BTSocket(Context c) {
         context = c;
         uuid =  UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -96,6 +95,9 @@ public class BTSocket {
                 }
                 catch (Exception e2) {
                     Log.e(TAG, "Couldn't establish Bluetooth connection! Setting mmDevice to null");
+                    // broadcast a custom intent.
+
+                    System.out.println("intent Received");
                     mmDevice = null;
                 }
             } else {

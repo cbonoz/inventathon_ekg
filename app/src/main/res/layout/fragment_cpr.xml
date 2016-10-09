@@ -9,7 +9,19 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="CPR Fragment" />
+        android:text="Heart Rate"
+        android:textSize="36dp" />
+
+    <!--<Button-->
+        <!--android:id="@+id/timer_button"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="Toggle"-->
+        <!--android:theme="@style/ThemeOverlay.MyDarkButton"-->
+        <!--android:layout_marginBottom="192dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
     <Button
         android:id="@+id/cardiac_button"
@@ -21,6 +33,17 @@
         android:layout_marginBottom="92dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/heart_text_view"
+        android:layout_width="match_parent"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:layout_height="200dp"
+        android:textColor="@android:color/black"
+        android:textSize="120sp"
+        android:text="XX"
+        android:layout_alignParentTop="true" />
 
 
 </RelativeLayout>
