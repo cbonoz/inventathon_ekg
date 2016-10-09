@@ -134,15 +134,59 @@ public class BTSocket {
     }
 
     public void beginListen() {
-        beginDuinoListen();
-    }
+        try {
+            bitalino.open(mmSocket.getInputStream(), mmSocket.getOutputStream());
+            Log.d(TAG, "Connected.");
 
+            // get BITalino version
+            Log.d(TAG, "Version: " + bitalino.version());
+
+            // start acquisition on predefined analog channels
+            bitalino.start();
+
+            // read until task is stopped
+            int counter = 0;
+            while (counter < 100) {
+                final int numberOfSamplesToRead = 1000;
+                Log.d(TAG, "Reading " + numberOfSamplesToRead + " samples..");
+                BITalinoFrame[] frames = bitalino.read(numberOfSamplesToRead);
+
+                if (UPLOAD) {
+                    // prepare reading for upload
+                    BITalinoReading reading = new BITalinoReading();
+                    reading.setTimestamp(System.currentTimeMillis());
+                    reading.setFrames(frames);
+                    // instantiate reading service client
+                    RestAdapter restAdapter = new RestAdapter.Builder()
+                            .setEndpoint("http://server_ip:8080/bitalino")
+                            .build();
+                    ReadingService service = restAdapter.create(ReadingService.class);
+                    // upload reading
+                    Response response = service.uploadReading(reading);
+                    assert response.getStatus() == 200;
+                }
+
+                // present data in screen
+                for (BITalinoFrame frame : frames)
+                    Log.d(TAG, frame.toString());
+
+                counter++;
+            }
+
+            // trigger digital outputs
+            // int[] digital = { 1, 1, 1, 1 };
+            // device.trigger(digital);
+        } catch (Exception e) {
+            Log.e(TAG, "There was an error.", e);
+        }
+        // beginDuinoListen();
+    }
 
     private static float[] airBeamVals = new float[3];
     // callback when dust data receivable
     // Example data: B:0.84ET:77EH:59E
     private void processBTData(String receiveBuffer) {
-        Log.d(TAG, "duinoData: " + receiveBuffer);
+        Log.d(TAG, "bitalinoData: " + receiveBuffer);
     }
 
     private void beginDuinoListen() {
@@ -181,7 +225,7 @@ public class BTSocket {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // identifier for locating the bluetooth device under paired devices.
-        final String deviceString = "duino";
+        final String deviceString = "bit";
 
         if(bluetoothAdapter == null) {
             Log.e(TAG, "No bluetooth adapter available");

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@android:color/darker_gray"
+    android:background="@drawable/main_background"
     tools:context="com.ekg.www.inventathon.MainActivity">
 
     <!--<android.support.design.widget.AppBarLayout-->

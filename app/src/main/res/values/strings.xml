@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">preKG</string>
+    <string name="app_name">prEKG</string>
     <string name="action_settings">Settings</string>
-    <string name="desc_pickwhere_lockup">HeartForm logo and name</string>
+    <string name="desc_pickwhere_lockup">prEKG logo and name</string>
 
     <!-- Firebase app demo string below -->
     <string name="label_google_sign_in">Firebase + Google Sign In</string>

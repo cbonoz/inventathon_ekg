@@ -1,54 +1,67 @@
 package com.ekg.www.inventathon.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.ekg.www.inventathon.R;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+
+import static com.google.android.gms.wearable.DataMap.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CPRFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  */
 public class CPRFragment extends Fragment {
-    private OnFragmentInteractionListener mListener;
+
 
     private Vibrator v;
-    private final TextToSpeech t1;
+    private TextToSpeech t1;
+
+    private Button cardiacButton;
 
     private static final String CPR_HELP_TEXT = "Cardiac Arrest. Please Check Phone.";
+    private static final List<String> PHONE_NUMBERS = Arrays.asList("5109266842", "8189160713");
     private static final int VIBRATE_DURATION_MS = 500;
 
     public CPRFragment() {
         // Required empty public constructor
-        t1=new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                }
-            }
-        });
 
-        v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
-    private void alertAndVibrate() {
+    private final SmsManager sms = SmsManager.getDefault();
+
+    private void sendTextMessage(List<String> phoneNumbers, String message) {
+
+        for(int i=0;i<phoneNumbers.size();i++) {
+            try {
+                sms.sendTextMessage(phoneNumbers.get(i), null, message, null, null);
+            }
+            catch(IllegalArgumentException e)
+            {
+
+            }
+        }
+    }
+
+    private void alertAndVibrateAndText() {
         Toast.makeText(getActivity(), CPR_HELP_TEXT,Toast.LENGTH_SHORT).show();
         t1.speak(CPR_HELP_TEXT, TextToSpeech.QUEUE_FLUSH, null);
         v.vibrate(VIBRATE_DURATION_MS);
-
+        sendTextMessage(PHONE_NUMBERS, CPR_HELP_TEXT);
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,47 +73,31 @@ public class CPRFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View cprView = inflater.inflate(R.layout.fragment_cpr, container, false);
+        t1 = new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+        v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        cardiacButton = (Button) cprView.findViewById(R.id.cardiac_button);
+        cardiacButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "cardiac button clicked");
+                alertAndVibrateAndText();
+            }
+        });
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cpr, container, false);
+        return cprView;
 
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

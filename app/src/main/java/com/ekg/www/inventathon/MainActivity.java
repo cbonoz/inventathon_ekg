@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.ekg.www.inventathon.auth.AuthUser;
 import com.ekg.www.inventathon.bluetooth.BTSocket;
+import com.ekg.www.inventathon.fragments.CPRFragment;
+import com.ekg.www.inventathon.fragments.DefibrillatorMapsFragment;
 import com.ekg.www.inventathon.fragments.HomeFragment;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -41,6 +43,8 @@ public class MainActivity extends FragmentActivity implements
     private FirebaseUser user = null;
 
     private Fragment homeFragment = new HomeFragment();
+    private Fragment mapFragment = new DefibrillatorMapsFragment();
+    private Fragment cprFragment = new CPRFragment();
 
     protected Bundle mSavedInstanceState;
 
@@ -191,8 +195,15 @@ public class MainActivity extends FragmentActivity implements
                 targetFragment = homeFragment;
                 break;
             case Constants.PROFILE_FRAGMENT:
+                targetFragment = homeFragment;
                 // TODO: Load another fragment
                 return;
+            case Constants.CPR_FRAGMENT:
+                targetFragment = cprFragment;
+                break;
+            case Constants.MAP_FRAGMENT:
+                targetFragment = mapFragment;
+                break;
             default:
                 Log.e(TAG, "Invalid fragmentNumber " + fragmentNumber + " for updateFragment");
                 return;
@@ -228,14 +239,11 @@ public class MainActivity extends FragmentActivity implements
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 
+
     @Override
     public void onBackPressed() {
-        int fragments = getSupportFragmentManager().getBackStackEntryCount();
-        if (fragments == 1) {
-            finish();
-            return;
-        }
-        super.onBackPressed();
+        Log.d(TAG, "onBackPressed - should send to homeFragment");
+        updateFragment(Constants.HOME_FRAGMENT);
     }
 
 

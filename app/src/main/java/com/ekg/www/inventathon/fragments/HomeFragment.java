@@ -23,7 +23,7 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
 
     private Button profileButton;
-    private Button emtButton;
+    private Button mapButton;
     private Button cprButton;
 
     private Button googleSignOutButton;
@@ -45,13 +45,14 @@ public class HomeFragment extends Fragment {
         user = AuthUser.getUser();
 
         profileButton = (Button) homeView.findViewById(R.id.profile_button);
-        emtButton = (Button) homeView.findViewById(R.id.emt_button);
+        mapButton = (Button) homeView.findViewById(R.id.map_button);
+        cprButton = (Button) homeView.findViewById(R.id.cpr_help_button);
+
         googleSignOutButton = (Button) homeView.findViewById(R.id.google_sign_out_button);
 
-        appNameTextView = (TextView) homeView.findViewById(R.id.app_name_text_view);
-        appNameTextView.getBackground().setAlpha(100);
+//        appNameTextView = (TextView) homeView.findViewById(R.id.app_name_text_view);
+//        appNameTextView.getBackground().setAlpha(100);
 
-        // TODO(cbono): add behavior to buttons.
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,12 +60,23 @@ public class HomeFragment extends Fragment {
                 ((MainActivity) getActivity()).updateFragment(Constants.PROFILE_FRAGMENT);
             }
         });
-        emtButton.setOnClickListener(new View.OnClickListener() {
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "schedule button clicked");
+                Log.d(TAG, "map button clicked");
+                ((MainActivity) getActivity()).updateFragment(Constants.MAP_FRAGMENT);
             }
         });
+
+        cprButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "cpr button clicked");
+                ((MainActivity) getActivity()).updateFragment(Constants.CPR_FRAGMENT);
+            }
+        });
+
         googleSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
