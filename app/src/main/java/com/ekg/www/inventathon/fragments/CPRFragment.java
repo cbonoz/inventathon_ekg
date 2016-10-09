@@ -87,9 +87,9 @@ public class CPRFragment extends Fragment {
         @Override
         public void run() {
             double randVal = Math.random();
-            if (randVal > .7) {
+            if (randVal > .75) {
                 lastHeartValue++;
-            } else if (randVal < .3) {
+            } else if (randVal < .25) {
                 lastHeartValue--;
             }
             if (lastHeartValue > 70) {
@@ -104,14 +104,19 @@ public class CPRFragment extends Fragment {
 
     private void startTimer() {
         if (!timerStarted) {
+            Log.d(TAG, "startTimer");
             handler.postDelayed(runnable, ONE_SEC);
+            timerStarted = true;
         }
     }
 
     private void stopTimer() {
         lastHeartValue = 0;
         if (timerStarted) {
+            Log.d(TAG, "stopTimer");
             handler.removeCallbacks(runnable);
+            heartTextView.setText(lastHeartValue + "");
+            timerStarted = false;
         }
     }
 
@@ -124,13 +129,16 @@ public class CPRFragment extends Fragment {
     }
 
     private void alertAndVibrateAndText() {
-        AudioManager audioManager = (AudioManager) getActivity().getSystemService(AUDIO_SERVICE);
-        audioManager.setSpeakerphoneOn(true);
+        Log.d(TAG, "alertAndVibrateAndText");
+        AudioManager am = (AudioManager) getActivity().getSystemService(AUDIO_SERVICE);
+        am.setSpeakerphoneOn(true);
+        int amStreamMusicMaxVol = am.getStreamMaxVolume(am.STREAM_MUSIC);
+        am.setStreamVolume(am.STREAM_MUSIC, amStreamMusicMaxVol, 0);
         Toast.makeText(getActivity(), CPR_VOICE_MESSAGE,Toast.LENGTH_SHORT).show();
         t1.speak(CPR_VOICE_MESSAGE, TextToSpeech.QUEUE_FLUSH, null);
         v.vibrate(VIBRATE_DURATION_MS);
         sendTextMessage(PHONE_NUMBERS, CPR_TEXT_MESSAGE);
-        audioManager.setSpeakerphoneOn(false);
+        am.setSpeakerphoneOn(false);
     }
 
     @Override
