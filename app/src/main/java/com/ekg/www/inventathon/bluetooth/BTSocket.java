@@ -6,6 +6,9 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
 
+import com.bitalino.comm.BITalinoDevice;
+import com.bitalino.comm.BITalinoFrame;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
@@ -133,8 +136,14 @@ public class BTSocket {
         Log.d(TAG, "conn bluetooth closed");
     }
 
+    private BITalinoDevice bitalino;
+
     public void beginListen() {
+        Log.d(TAG, "beginListen");
+
         try {
+            bitalino = new BITalinoDevice(1000, new int[]{0, 1, 2, 3, 4, 5});
+            Log.d(TAG, "Connecting to BITalino [" + mmDevice.toString() + "]..");
             bitalino.open(mmSocket.getInputStream(), mmSocket.getOutputStream());
             Log.d(TAG, "Connected.");
 
@@ -150,21 +159,21 @@ public class BTSocket {
                 final int numberOfSamplesToRead = 1000;
                 Log.d(TAG, "Reading " + numberOfSamplesToRead + " samples..");
                 BITalinoFrame[] frames = bitalino.read(numberOfSamplesToRead);
-
-                if (UPLOAD) {
-                    // prepare reading for upload
-                    BITalinoReading reading = new BITalinoReading();
-                    reading.setTimestamp(System.currentTimeMillis());
-                    reading.setFrames(frames);
-                    // instantiate reading service client
-                    RestAdapter restAdapter = new RestAdapter.Builder()
-                            .setEndpoint("http://server_ip:8080/bitalino")
-                            .build();
-                    ReadingService service = restAdapter.create(ReadingService.class);
-                    // upload reading
-                    Response response = service.uploadReading(reading);
-                    assert response.getStatus() == 200;
-                }
+//
+//                if (UPLOAD) {
+//                    // prepare reading for upload
+//                    BITalinoReading reading = new BITalinoReading();
+//                    reading.setTimestamp(System.currentTimeMillis());
+//                    reading.setFrames(frames);
+//                    // instantiate reading service client
+//                    RestAdapter restAdapter = new RestAdapter.Builder()
+//                            .setEndpoint("http://server_ip:8080/bitalino")
+//                            .build();
+//                    ReadingService service = restAdapter.create(ReadingService.class);
+//                    // upload reading
+//                    Response response = service.uploadReading(reading);
+//                    assert response.getStatus() == 200;
+//                }
 
                 // present data in screen
                 for (BITalinoFrame frame : frames)

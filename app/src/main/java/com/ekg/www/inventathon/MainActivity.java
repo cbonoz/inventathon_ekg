@@ -10,10 +10,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ekg.www.inventathon.auth.AuthUser;
-import com.ekg.www.inventathon.bluetooth.BTSocket;
 import com.ekg.www.inventathon.fragments.CPRFragment;
 import com.ekg.www.inventathon.fragments.DefibrillatorMapsFragment;
 import com.ekg.www.inventathon.fragments.HomeFragment;
+import com.ekg.www.inventathon.services.BTService;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -48,7 +48,7 @@ public class MainActivity extends FragmentActivity implements
 
     protected Bundle mSavedInstanceState;
 
-    private BTSocket btSocket;
+    private Intent heartIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +90,8 @@ public class MainActivity extends FragmentActivity implements
         };
 
 
+
+
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
@@ -97,12 +99,8 @@ public class MainActivity extends FragmentActivity implements
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, homeFragment).commit();
         }
-
-        btSocket = new BTSocket(this);
-        if (btSocket.openConn()) {
-            btSocket.beginListen();
-        }
-
+        heartIntent = new Intent(this, BTService.class);
+        startService(heartIntent);
     }
 
     // [START on_start_add_listener]
@@ -123,15 +121,11 @@ public class MainActivity extends FragmentActivity implements
     }
     // [END on_stop_remove_listener]
 
+
     @Override
     public void onDestroy() {
-        super.onStop();
-        try {
-            btSocket.closeConn();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "btSocket closeConn failure");
-        }
+        super.onDestroy();
+        stopService(heartIntent);
     }
 
     // [START onactivityresult]
