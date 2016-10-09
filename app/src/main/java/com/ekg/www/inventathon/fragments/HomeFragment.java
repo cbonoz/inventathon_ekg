@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ekg.www.inventathon.Constants;
 import com.ekg.www.inventathon.MainActivity;
@@ -56,6 +57,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "profile button clicked");
+                Toast.makeText(getActivity(), R.string.coming_soon, Toast.LENGTH_LONG).show();
                 ((MainActivity) getActivity()).updateFragment(Constants.PROFILE_FRAGMENT);
             }
         });

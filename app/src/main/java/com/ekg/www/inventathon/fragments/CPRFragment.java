@@ -17,8 +17,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ekg.www.inventathon.Constants;
-import com.ekg.www.inventathon.MainActivity;
 import com.ekg.www.inventathon.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -48,8 +46,8 @@ public class CPRFragment extends Fragment {
 
     private final String CPR_VOICE_MESSAGE = "I may be in trouble, Check my phone to help.";
     private String cprTextMessage;
-    private static final List<String> PHONE_NUMBERS = Arrays.asList("5109266842");//8189160713");
-    private static final int VIBRATE_DURATION_MS = 500;
+    private static final List<String> PHONE_NUMBERS = Arrays.asList("5109266842", "8189160713");
+    private static final int VIBRATE_DURATION_MS = 1000;
 
     public CPRFragment() {
         // Required empty public constructor
@@ -113,10 +111,11 @@ public class CPRFragment extends Fragment {
             heartTextView.setText(lastHeartValue + "");
         }
 
+        // Trigger fired, send text message and show cpr button.
         public void onFinish() {
             cprButton.setVisibility(View.VISIBLE);
+            sendTextMessage(PHONE_NUMBERS, cprTextMessage);
             Log.d(TAG, "countDown done");
-//            mTextField.setText("done!");
         }
     };
 
@@ -124,12 +123,12 @@ public class CPRFragment extends Fragment {
         @Override
         public void run() {
             alertAndVibrate();
-            handler.postDelayed(this, ONE_SEC_MS * 10);
+            handler.postDelayed(this, ONE_SEC_MS * 6);
         }
     };
 
-    private void startTimer() {
-        Log.d(TAG, "startTimer");
+    private void startHeartUpdate() {
+        Log.d(TAG, "startHeartUpdate");
         if (!heartTimerStarted) {
             voiceStarted = false;
             handler.postDelayed(heartRateRunnable, ONE_SEC_MS);
@@ -151,15 +150,16 @@ public class CPRFragment extends Fragment {
         }
     }
 
-    private void stopTimer() {
-        Log.d(TAG, "stopTimer");
+    private void stopHeartUpdate() {
+        Log.d(TAG, "stopHeartUpdate");
         lastHeartValue = 0;
         if (heartTimerStarted) {
+            Log.d(TAG, "stopped heartRateRunnable");
             handler.removeCallbacks(heartRateRunnable);
             heartTextView.setText(lastHeartValue + "");
             heartTimerStarted = false;
             // TODO: Uncomment when ready
-//            sendTextMessage(PHONE_NUMBERS, cprTextMessage);
+
         }
         if (!voiceStarted) {
             voiceStarted = true;
@@ -176,10 +176,10 @@ public class CPRFragment extends Fragment {
 
     private void toggleTimer() {
         if (heartTimerStarted) {
-            stopTimer();
+            stopHeartUpdate();
         } else {
             cprButton.setVisibility(View.INVISIBLE);
-            startTimer();
+            startHeartUpdate();
         }
     }
 
@@ -187,14 +187,12 @@ public class CPRFragment extends Fragment {
         Log.d(TAG, "alertAndVibrate");
         Toast.makeText(getActivity(), CPR_VOICE_MESSAGE, Toast.LENGTH_SHORT).show();
         v.vibrate(VIBRATE_DURATION_MS);
-        // TODO: Uncomment when ready
+        // TODO: Uncomment voice when ready
 //        AudioManager am = (AudioManager) getActivity().getSystemService(AUDIO_SERVICE);
 //        am.setSpeakerphoneOn(true);
 //        int amStreamMusicMaxVol = am.getStreamMaxVolume(am.STREAM_MUSIC);
 //        am.setStreamVolume(am.STREAM_MUSIC, amStreamMusicMaxVol, 0);
-//        Toast.makeText(getActivity(), CPR_VOICE_MESSAGE,Toast.LENGTH_SHORT).show();
 //        t1.speak(CPR_VOICE_MESSAGE, TextToSpeech.QUEUE_FLUSH, null);
-//
 //        am.setSpeakerphoneOn(false);
     }
 
@@ -216,7 +214,7 @@ public class CPRFragment extends Fragment {
             userName = "User";
         }
         cprTextMessage = userName +
-                "may need help. Current has a critically low heart rate at location: CNSI, UCLA";
+                " may be experiencing a cardiac arrest. He's currently at location: CNSI, UCLA";
         Log.d(TAG, "cprTextMessage: " + cprTextMessage);
 
         t1 = new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
@@ -243,7 +241,14 @@ public class CPRFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "cpr help button clicked");
-                ((MainActivity) getActivity()).updateFragment(Constants.MAP_FRAGMENT);
+                try {
+                    // Return to normal rhythm.
+                    startHeartUpdate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+//                ((MainActivity) getActivity()).updateFragment(Constants.MAP_FRAGMENT);
             }
         });
         cprButton.setVisibility(View.INVISIBLE);
@@ -255,7 +260,7 @@ public class CPRFragment extends Fragment {
         timer = new Timer();
         heartTimerStarted = false;
         voiceStarted = false;
-        startTimer();
+        startHeartUpdate();
 
         // Inflate the layout for this fragment
         return cprView;

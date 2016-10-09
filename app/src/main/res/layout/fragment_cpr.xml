@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Your\nHeart Rate"
+        android:text="Current\nHeart Rate"
         android:textSize="36dp"
         android:gravity="center"
         android:id="@+id/heart_rate_text"

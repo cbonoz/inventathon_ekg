@@ -59,7 +59,9 @@
     <string name="title_activity_defibrillator_maps">Nearby Defibrillators</string>
     <string name="title_activity_main">prEKG</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: Add profile fragment page -->
+    <string name="profile_blank_fragment">Profile Page Coming Soon</string>
+
+    <string name="coming_soon">Feature Coming Soon</string>
 
 </resources>
