@@ -2,6 +2,7 @@ package com.ekg.www.inventathon.fragments;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.R.attr.alpha;
+import static android.content.Context.AUDIO_SERVICE;
 import static com.google.android.gms.wearable.DataMap.TAG;
 
 /**
@@ -188,12 +190,12 @@ public class CPRFragment extends Fragment {
         Toast.makeText(getActivity(), CPR_VOICE_MESSAGE, Toast.LENGTH_SHORT).show();
         v.vibrate(VIBRATE_DURATION_MS);
         // TODO: Uncomment voice when ready
-//        AudioManager am = (AudioManager) getActivity().getSystemService(AUDIO_SERVICE);
-//        am.setSpeakerphoneOn(true);
-//        int amStreamMusicMaxVol = am.getStreamMaxVolume(am.STREAM_MUSIC);
-//        am.setStreamVolume(am.STREAM_MUSIC, amStreamMusicMaxVol, 0);
-//        t1.speak(CPR_VOICE_MESSAGE, TextToSpeech.QUEUE_FLUSH, null);
-//        am.setSpeakerphoneOn(false);
+        AudioManager am = (AudioManager) getActivity().getSystemService(AUDIO_SERVICE);
+        am.setSpeakerphoneOn(true);
+        int amStreamMusicMaxVol = am.getStreamMaxVolume(am.STREAM_MUSIC);
+        am.setStreamVolume(am.STREAM_MUSIC, amStreamMusicMaxVol, 0);
+        t1.speak(CPR_VOICE_MESSAGE, TextToSpeech.QUEUE_FLUSH, null);
+        am.setSpeakerphoneOn(false);
     }
 
     @Override
